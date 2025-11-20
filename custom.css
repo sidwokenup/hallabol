@@ -322,4 +322,181 @@ body{
   border-color: #dadce0;
   color: #1a1a1a;
 }
+/* FIRST SCREEN BACKGROUND */
+#firstScreen {
+	position: fixed;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 9999999999;
+}
+
+#firstBg {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* INCOMING CALL POPUP */
+#callPopup {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1000;
+	pointer-events: auto;
+}
+
+.call-box {
+	width: 320px;
+	background: #ffffff;
+	border-radius: 20px;
+	padding: 25px 20px 30px;
+	text-align: center;
+	box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+	position: relative;
+}
+
+.closeBtn {
+	position: absolute;
+	top: 12px;
+	right: 15px;
+	font-size: 26px;
+	cursor: pointer;
+}
+
+.caller-img {
+	width: 110px;
+	height: 110px;
+	border-radius: 50%;
+	object-fit: cover;
+	margin-top: 10px;
+	box-shadow: 0 0 8px rgba(0,0,0,0.25);
+}
+
+.call-box h3 {
+	margin: 12px 0 5px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.enc {
+	font-size: 12px;
+	color: #666;
+	margin-top: 5px;
+}
+
+.btn-row {
+	margin-top: 15px;
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.call-btn {
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	background: #ddd;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	font-size: 16px;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.call-btn.accept {
+	background: #00e676;
+}
+
+.call-btn.decline {
+	background: #ff3d3d;
+}
+
+.call-box, .caller-img {
+	user-select: none;
+	pointer-events: none;
+}
+
+.call-btn, .closeBtn {
+	pointer-events: auto;
+}
+/* ------------------------------
+   CALL POPUP ANIMATIONS
+--------------------------------*/
+
+/* Slide-in from top like iPhone */
+.slide-in {
+    animation: slideIn 0.8s ease-out forwards;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-120%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Shake (vibration) every 2 seconds */
+.shake {
+    animation: vibrate 0.25s linear infinite;
+    animation-delay: 1s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes vibrate {
+    0% { transform: rotate(0deg); }
+    20% { transform: rotate(1.5deg); }
+    40% { transform: rotate(-1.5deg); }
+    60% { transform: rotate(1deg); }
+    80% { transform: rotate(-1deg); }
+    100% { transform: rotate(0); }
+}
+
+/* Profile picture glow pulse */
+.pulse {
+    animation: pulseGlow 1.8s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+    0% { box-shadow: 0 0 0px rgba(0,255,0,0.0); }
+    50% { box-shadow: 0 0 25px rgba(0,255,0,0.55); }
+    100% { box-shadow: 0 0 0px rgba(0,255,0,0.0); }
+}
+
+/* Fade-in text */
+.fade-in {
+    animation: fadeIn 0.8s ease forwards;
+}
+
+.fade-in-delay {
+    opacity: 0;
+    animation: fadeIn 1.1s ease forwards;
+    animation-delay: 0.4s;
+}
+
+.fade-in-late {
+    opacity: 0;
+    animation: fadeIn 1.3s ease forwards;
+    animation-delay: 0.7s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Fade-in buttons */
+.fade-buttons {
+    opacity: 0;
+    animation: fadeInButtons 1.4s ease forwards;
+    animation-delay: 1.1s;
+}
+
+@keyframes fadeInButtons {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 

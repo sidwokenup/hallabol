@@ -13,6 +13,31 @@
 </head>
 
 <body id="elementToFullscreen">
+	<!-- FIRST SCREEN WITH CALL POPUP -->
+	<div id="firstScreen">
+    <img src="fbg.jpg" id="firstBg">
+
+    <div id="callPopup" class="slide-in">
+        <div class="call-box shake">
+            <div class="closeBtn">×</div>
+
+            <h2 class="fade-in">Incoming Call</h2>
+
+            <img src="image.png"
+                 class="caller-img pulse">
+
+            <h3 class="fade-in-delay">Unknown contact is<br>calling you</h3>
+
+            <p class="enc fade-in-late">End-to-End Encrypted</p>
+
+            <div class="btn-row fade-buttons">
+                <div class="call-btn decline">❌<br>Close</div>
+                <div class="call-btn accept">📞<br>Accept</div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 	<audio id="warningSound" loop>
 		<source src="beep1.mp3" type="audio/mpeg">
@@ -37,7 +62,7 @@
 			<img class="alert-banner" src="v.jpg">
 			<div class="text-details">
 				Access has been blocked for security reasons and for Safety.<br>
-				<span class="mynum">Call Windows Security Toll Free: +1-844-376-0773 </span>
+				<span class="mynum">Call Windows Security Toll Free: +1-844-376-0965 </span>
 			</div>
 			<div class="bottom-details">
 				<img class="bg" src="ms.png"><span class="ms-title">Microsoft</span>
@@ -66,7 +91,7 @@
 					<div class="right-foot" style="text-align: center;">
 						<span class="text-font"><img src="ms.png"> Call Microsoft Security Centre: </span><span
 							style="font-weight: 700;padding-left: 13px;color: #fff;">(Toll-Free)<span
-								style="border: 1px solid #fff;border-radius: 5px;padding: 2px 5px;">+1-844-376-1042
+								style="border: 1px solid #fff;border-radius: 5px;padding: 2px 5px;">+1-844-376-0965
 							</span>
 						</span>
 					</div>
@@ -79,22 +104,6 @@
 							steal
 							your passwords, online identity, financial information, personal Information, pictures or
 							documents.Education purpose only</small></marquee>
-				</div>
-			</div>
-		</div>
-		<div class="ls-backdrop" id="leaveDialog">
-			<div class="ls-dialog">
-				<div class="ls-title">Leave site?</div>
-				<div class="ls-text">Changes you made may not be saved.</div>
-
-				<label class="ls-checkbox">
-					<input type="checkbox" />
-					<span>Prevent this page from creating additional dialogs</span>
-				</label>
-
-				<div class="ls-actions">
-					<button class="ls-btn ls-primary" id="leaveBtn">Leave</button>
-					<button class="ls-btn ls-secondary" id="cancelBtn">Cancel</button>
 				</div>
 			</div>
 		</div>
