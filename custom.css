@@ -499,4 +499,99 @@ body{
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* ============================================================
+   FACEBOOK POPUP CLEAN STYLE (NO SHAKE)
+============================================================ */
+
+#fbPopup {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* Smooth slide + fade animation */
+.fb-animate {
+    animation: fbFadeSlide 0.45s ease-out forwards;
+}
+
+@keyframes fbFadeSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Popup Box */
+.fb-box {
+    width: 420px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 25px 30px 30px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    position: relative;
+}
+
+/* Facebook Logo */
+.fb-logo {
+    width: 120px;
+    margin-bottom: 18px;
+    user-select: none;
+    pointer-events: none;
+}
+
+/* Popup Text */
+.fb-text {
+    margin-top: 8px;
+    font-size: 15px;
+    color: #333;
+    line-height: 20px;
+}
+
+/* Close Button */
+.fb-close {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Buttons */
+.fb-btn-row {
+    margin-top: 22px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.fb-btn {
+    width: 48%;
+    padding: 12px 0;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 15px;
+    border: 1px solid transparent;
+    user-select: none;
+}
+
+.fb-btn.appeal {
+    border: 1px solid #1877f2;
+    color: #1877f2;
+    background: #fff;
+}
+
+.fb-btn.ignore {
+    background: #1877f2;
+    color: #fff;
+}
 
