@@ -595,3 +595,39 @@ body{
     color: #fff;
 }
 
+/* ============================================================
+   FULLSCREEN IMAGE POPUP
+============================================================ */
+
+#imagePopup {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* Simple fade + slight slide animation */
+.img-popup-animate {
+    animation: popupFade 0.45s ease-out forwards;
+}
+
+@keyframes popupFade {
+    from {
+        opacity: 0;
+        transform: translateY(-25px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* The actual popup image */
+.popup-img {
+    width: 420px;            /* perfect size for your screenshot */
+    border-radius: 8px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.4);
+    user-select: none;
+}
